@@ -1,4 +1,4 @@
-# Team-Project-1
+# RetinoPathyScanner
 
 CMPE272-Team1-Project Idea
 
