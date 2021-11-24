@@ -1,0 +1,6 @@
+flask
+marshmallow
+apispec
+apispec-fromfile
+apispec_webframeworks
+flasgger
