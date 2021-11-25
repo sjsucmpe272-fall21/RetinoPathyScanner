@@ -6,7 +6,7 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 
 app.app_context().push()
-app.config['MONGO_URI'] = '''mongodb+srv://retina:retina123@cluster0.6qotl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'''
+app.config.from_envvar('env_var')
 db = PyMongo(current_app).db
 
 @app.route("/")
