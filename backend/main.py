@@ -5,6 +5,9 @@ from flask.globals import request
 from flask.wrappers import Response
 from flask_pymongo import PyMongo
 from dotenv import dotenv_values
+from bson.json_util import dumps, loads
+from flask_jwt import JWT, jwt_required, current_identity
+import jwt
 from fastai.vision import *
 app = Flask(__name__)
 
@@ -12,6 +15,7 @@ app.app_context().push()
 
 config = dotenv_values(".env")
 app.config['MONGO_URI'] = config["MONGO_URI"]
+app.config["SECRET_KEY"] = config["SECRET_KEY"]
 
 path = Path("")
 
@@ -22,6 +26,20 @@ db = PyMongo(current_app).db
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
+
+
+@app.route("/login",methods = ['POST'])
+def login():
+    user_data = request.get_json()
+    username = user_data["username"]
+    password = user_data["password"]
+    result = db.users.find_one({"username":username,"password":password})
+    token = jwt.encode({"username" : result["username"]},app.config.get("SECRET_KEY"),algorithm="HS256").decode('utf-8')
+    print(str(token))
+    resp = {"response":{"username" : result["username"]},"token":token}
+
+    return dumps(resp)
+
 
 @app.route("/signup",methods = ['POST'])
 def signUp():
@@ -37,8 +55,15 @@ def signUp():
 @app.route("/checkImage",methods = ['POST'])
 def checkImage():
     img = request.files.get("image")
-    #print(img)
-    return classify(img)
+    token = request.form.get("token")
+    print("+++++++++")
+    print(token)
+    print("+++++++++")
+
+    if(verify_user(token)):
+        return classify(img)
+    else:
+        return "404"
 
 def classify(img_path):
     
@@ -56,3 +81,10 @@ def classify(img_path):
 
 
     return "Please Try again later"
+
+def verify_user(token):
+    try:
+        jwt.decode(token,app.config.get("SECRET_KEY"),algorithm="HS256")
+        return True
+    except:
+        return False

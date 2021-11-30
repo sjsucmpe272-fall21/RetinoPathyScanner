@@ -9,6 +9,8 @@ pymongo = {extras = ["srv"], version = "*"}
 flask-pymongo = "*"
 python-dotenv = "*"
 fastai = "==1.0.61"
+flask-jwt = "*"
+pyjwt = "*"
 
 [dev-packages]
 
