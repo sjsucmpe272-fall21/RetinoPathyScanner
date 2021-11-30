@@ -1,9 +1,6 @@
 # RetinoPathyScanner
 
-CMPE272-Team1-Project Idea
-
-
-Project Idea1:
+CMPE272-Team1-Project Idea :
 
 
 Introduction to the problem statement
