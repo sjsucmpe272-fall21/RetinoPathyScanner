@@ -34,6 +34,8 @@ def login():
     username = user_data["username"]
     password = user_data["password"]
     result = db.users.find_one({"username":username,"password":password})
+    if(result == None):
+        return "404"
     token = jwt.encode({"username" : result["username"]},app.config.get("SECRET_KEY"),algorithm="HS256").decode('utf-8')
     print(str(token))
     resp = {"response":{"username" : result["username"]},"token":token}
@@ -60,7 +62,7 @@ def checkImage():
     print(token)
     print("+++++++++")
 
-    if(verify_user(token)):
+    if(verify_user(token))  :
         return classify(img)
     else:
         return "404"
