@@ -46,3 +46,6 @@ https://www.kaggle.com/c/aptos2019-blindness-detection/data
 3) > npm start
 4) Scan QR code to run in app or select run in web browser.
 
+<img width="591" alt="login" src="https://user-images.githubusercontent.com/89316938/144912118-3267329c-ed79-4986-9c4b-b92fbec0368f.png">
+
+
